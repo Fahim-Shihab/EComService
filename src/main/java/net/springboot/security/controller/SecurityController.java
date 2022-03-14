@@ -1,15 +1,13 @@
-package net.javaguides.springboot.security.controller;
+package net.springboot.security.controller;
 
-import io.swagger.annotations.ApiOperation;
-import net.javaguides.springboot.common.base.ServiceResponse;
-import net.javaguides.springboot.security.payload.LoginRequest;
-import net.javaguides.springboot.security.payload.LoginResponse;
-import net.javaguides.springboot.security.payload.RegisterUserRequest;
-import net.javaguides.springboot.security.service.SecurityService;
-import net.javaguides.springboot.security.service.UserService;
+import net.springboot.common.base.ServiceResponse;
+import net.springboot.security.payload.LoginRequest;
+import net.springboot.security.payload.LoginResponse;
+import net.springboot.security.payload.RegisterUserRequest;
+import net.springboot.security.service.SecurityService;
+import net.springboot.security.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

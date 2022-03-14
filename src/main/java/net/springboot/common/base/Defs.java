@@ -1,10 +1,7 @@
-package net.javaguides.springboot.common.base;
+package net.springboot.common.base;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Defs {
     public static boolean WRITE_SQL = true;

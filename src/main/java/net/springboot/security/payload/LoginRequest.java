@@ -1,4 +1,4 @@
-package net.javaguides.springboot.security.payload;
+package net.springboot.security.payload;
 
 
 import lombok.*;

@@ -1,4 +1,4 @@
-package net.javaguides.springboot.common.base;
+package net.springboot.common.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

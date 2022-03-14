@@ -1,10 +1,9 @@
-package net.javaguides.springboot.employee.payload;
+package net.springboot.employee.payload;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.javaguides.springboot.common.base.ServiceResponse;
+import net.springboot.common.base.ServiceResponse;
 
 import java.io.Serializable;
 

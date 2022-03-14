@@ -1,7 +1,7 @@
-package net.javaguides.springboot.security.config;
+package net.springboot.security.config;
 
 import io.jsonwebtoken.*;
-import net.javaguides.springboot.security.model.LoggedInUser;
+import net.springboot.security.model.LoggedInUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

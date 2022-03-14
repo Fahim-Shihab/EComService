@@ -1,8 +1,8 @@
-package net.javaguides.springboot.security.service;
+package net.springboot.security.service;
 
-import net.javaguides.springboot.lookup.repository.BaseRepository;
-import net.javaguides.springboot.security.model.LoggedInUser;
-import net.javaguides.springboot.security.model.UserInfo;
+import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.security.model.LoggedInUser;
+import net.springboot.security.model.UserInfo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

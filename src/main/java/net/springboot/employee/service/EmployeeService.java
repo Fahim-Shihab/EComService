@@ -1,17 +1,13 @@
-package net.javaguides.springboot.employee.service;
+package net.springboot.employee.service;
 
-import net.javaguides.springboot.common.base.ServiceResponse;
-import net.javaguides.springboot.common.util.Utils;
-import net.javaguides.springboot.employee.model.Employee;
-import net.javaguides.springboot.employee.payload.SaveEmployeeRequest;
-import net.javaguides.springboot.employee.payload.SaveEmployeeResponse;
-import net.javaguides.springboot.lookup.repository.BaseRepository;
-import net.javaguides.springboot.security.service.SecurityService;
+import net.springboot.employee.model.Employee;
+import net.springboot.employee.payload.SaveEmployeeRequest;
+import net.springboot.employee.payload.SaveEmployeeResponse;
+import net.springboot.lookup.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 

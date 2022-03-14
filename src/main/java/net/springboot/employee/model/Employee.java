@@ -1,4 +1,4 @@
-package net.javaguides.springboot.employee.model;
+package net.springboot.employee.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

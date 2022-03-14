@@ -1,4 +1,4 @@
-package net.javaguides.springboot.employee.payload;
+package net.springboot.employee.payload;
 
 import lombok.*;
 

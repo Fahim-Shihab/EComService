@@ -1,4 +1,4 @@
-package net.javaguides.springboot.security.config;
+package net.springboot.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

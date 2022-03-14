@@ -1,15 +1,15 @@
-package net.javaguides.springboot.security.service;
+package net.springboot.security.service;
 
-import net.javaguides.springboot.common.base.ServiceResponse;
-import net.javaguides.springboot.common.util.Utils;
-import net.javaguides.springboot.lookup.repository.BaseRepository;
-import net.javaguides.springboot.security.config.JwtUtils;
-import net.javaguides.springboot.security.model.LoggedInUser;
-import net.javaguides.springboot.security.model.UserInfo;
-import net.javaguides.springboot.security.model.UserInfoId;
-import net.javaguides.springboot.security.payload.LoginRequest;
-import net.javaguides.springboot.security.payload.LoginResponse;
-import net.javaguides.springboot.security.payload.RegisterUserRequest;
+import net.springboot.common.base.ServiceResponse;
+import net.springboot.common.util.Utils;
+import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.security.config.JwtUtils;
+import net.springboot.security.model.LoggedInUser;
+import net.springboot.security.model.UserInfo;
+import net.springboot.security.model.UserInfoId;
+import net.springboot.security.payload.LoginRequest;
+import net.springboot.security.payload.LoginResponse;
+import net.springboot.security.payload.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;

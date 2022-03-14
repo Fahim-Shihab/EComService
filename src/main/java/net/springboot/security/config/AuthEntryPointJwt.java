@@ -1,13 +1,10 @@
-package net.javaguides.springboot.security.config;
+package net.springboot.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.javaguides.springboot.common.base.ServiceResponse;
-import net.javaguides.springboot.common.util.Utils;
+import net.springboot.common.base.ServiceResponse;
+import net.springboot.common.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -15,11 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {

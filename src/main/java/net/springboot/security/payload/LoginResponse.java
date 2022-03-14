@@ -1,9 +1,9 @@
-package net.javaguides.springboot.security.payload;
+package net.springboot.security.payload;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.javaguides.springboot.common.base.ServiceResponse;
+import net.springboot.common.base.ServiceResponse;
 
 import java.io.Serializable;
 

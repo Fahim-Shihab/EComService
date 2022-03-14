@@ -1,4 +1,4 @@
-package net.javaguides.springboot.security.model;
+package net.springboot.security.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

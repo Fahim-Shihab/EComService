@@ -1,11 +1,11 @@
-package net.javaguides.springboot.employee.controller;
+package net.springboot.employee.controller;
 
-import net.javaguides.springboot.employee.model.Employee;
-import net.javaguides.springboot.employee.payload.SaveEmployeeRequest;
-import net.javaguides.springboot.employee.payload.SaveEmployeeResponse;
-import net.javaguides.springboot.employee.repository.EmployeeRepository;
-import net.javaguides.springboot.employee.service.EmployeeService;
-import net.javaguides.springboot.exception.ResourceNotFoundException;
+import net.springboot.employee.model.Employee;
+import net.springboot.employee.payload.SaveEmployeeRequest;
+import net.springboot.employee.payload.SaveEmployeeResponse;
+import net.springboot.employee.repository.EmployeeRepository;
+import net.springboot.employee.service.EmployeeService;
+import net.springboot.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
