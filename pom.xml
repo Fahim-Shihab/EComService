@@ -11,6 +11,7 @@
 	<groupId>net.javaguides</groupId>
 	<artifactId>springboot-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>springboot-backend</name>
 	<description>Demo project for Spring Boot REST APIs</description>
 	<properties>
@@ -70,6 +71,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>ecom-backend</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
