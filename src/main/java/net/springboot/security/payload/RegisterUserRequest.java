@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import net.springboot.common.enums.Status;
+import net.springboot.common.enums.UserRole;
 
 import java.io.Serializable;
 
@@ -17,8 +19,10 @@ public class RegisterUserRequest implements Serializable {
     String userId;
     String userEmail;
     String password;
-    String userType;
-    String userStatus;
+    UserRole userRole;
+    Status userStatus;
+    String contact;
+    String address;
 
     boolean resetPassword;
 }

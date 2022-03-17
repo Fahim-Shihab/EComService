@@ -74,8 +74,8 @@ public class SecurityService {
         if(!Utils.isOk(request.getPassword())) {
             return new ServiceResponse("Password is required");
         }
-        if(!Utils.isOk(request.getUserType())) {
-            return new ServiceResponse("User type is required");
+        if(!Utils.isOk(request.getUserRole())) {
+            return new ServiceResponse("User Role is required");
         }
         if(!Utils.isOk(request.getUserStatus())) {
             return new ServiceResponse("User status is required");
@@ -93,10 +93,13 @@ public class SecurityService {
                 isUpdate = true;
             } else {
                 userInfoEO = new UserInfo();
-                UserInfoId userInfoId = new UserInfoId();
-                userInfoId.setUserId(request.getUserId().trim().toUpperCase());
-                userInfoId.setUserEmail(request.getUserEmail());
-                userInfoEO.setUserInfoId(userInfoId);
+//                UserInfoId userInfoId = new UserInfoId();
+//                userInfoId.setUserId(request.getUserId().trim().toUpperCase());
+//                userInfoId.setUserEmail(request.getUserEmail());
+//                userInfoEO.setUserInfoId(userInfoId);
+
+                userInfoEO.setUserId((request.getUserId().trim().toUpperCase()));
+                userInfoEO.setUserEmail(request.getUserEmail());
             }
 
             Timestamp timestamp = Utils.getCurrentTimeStamp();
@@ -105,10 +108,14 @@ public class SecurityService {
                 userInfoEO.setPassword(passwordEncoder.encode(request.getPassword()));
             }
             if(isUpdate && request.isResetPassword()) {
+                userInfoEO.setUpdDate(timestamp);
                 userInfoEO.setPassword(passwordEncoder.encode(request.getPassword()));
             }
-            userInfoEO.setUserStatus(request.getUserStatus());
-            userInfoEO.setUserType(request.getUserType());
+            userInfoEO.setUserStatus(request.getUserStatus().getCode());
+            userInfoEO.setRole(request.getUserRole().getCode());
+            userInfoEO.setContact(request.getContact());
+            userInfoEO.setAddress(request.getAddress());
+
             if(!isUpdate) {
                 repository.persist(userInfoEO);
             } else {
