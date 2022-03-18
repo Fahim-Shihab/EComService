@@ -6,12 +6,15 @@ import net.springboot.employee.model.Employee;
 import net.springboot.employee.payload.SaveEmployeeRequest;
 import net.springboot.employee.payload.SaveEmployeeResponse;
 import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
 import net.springboot.vendor.payload.SaveVendorRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,11 @@ public class VendorService {
     }
 
     public ServiceResponse SaveVendor(SaveVendorRequest request) {
+
+        if (request == null){
+            return new ServiceResponse(false, "Request cannot be empty");
+        }
+
         try {
 
             boolean isUpdate = false;
@@ -51,9 +59,20 @@ public class VendorService {
             vendor.setStatus(request.getStatus().getCode());
             vendor.setVendorContactInfos(request.getVendorContactInfos());
 
-            if (!isUpdate) {
+            Timestamp timestamp = Utils.getCurrentTimeStamp();
+
+            LoggedInUser user = (LoggedInUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if(!isUpdate) {
+                vendor.setEntryDate(timestamp);
+                vendor.setEntryById(user.getId());
+
                 repository.persist(vendor);
-            } else {
+            }
+            else if(isUpdate) {
+                vendor.setUpdDate(timestamp);
+                vendor.setUpdById(user.getId());
+
                 repository.merge(vendor);
             }
         } catch (Throwable t) {
