@@ -1,6 +1,7 @@
 package net.springboot.employee.payload;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SaveEmployeeRequest  implements Serializable {
 
     private long id;

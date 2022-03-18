@@ -1,6 +1,6 @@
 package net.springboot.vendor.payload;
 
 public class GetVendorsRequest {
-    private String id;
+    private long id;
     private String name;
 }

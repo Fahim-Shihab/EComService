@@ -40,8 +40,8 @@ import java.util.List;
 public class Vendor implements Serializable {
 
     @Id
-    @Column(name = "id", unique=true, nullable=false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "name")
     private String name;

@@ -28,9 +28,8 @@ public class ProductDescription implements Serializable {
     @Column(name = "product_type_id")
     private long productTypeId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "vendor_id",referencedColumnName = "id")
-    Vendor vendorId;
+    @Column(name = "vendor_id")
+    private long vendorId;
 
     @Column(name = "photo")
     private String photo;

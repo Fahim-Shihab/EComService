@@ -90,7 +90,14 @@ public class SecurityService {
             UserInfo userInfoEO = repository.findSingleResultByNativeQuery(sql, UserInfo.class, params);
             boolean isUpdate = false;
             if(userInfoEO != null) {
-                isUpdate = true;
+
+                if (userInfoEO.getId() == request.getId()){
+                    isUpdate = true;
+                }
+                else{
+                    return new ServiceResponse(false,"This userId already exists. Please use different userId");
+                }
+
             } else {
                 userInfoEO = new UserInfo();
 //                UserInfoId userInfoId = new UserInfoId();
@@ -100,6 +107,7 @@ public class SecurityService {
 
                 userInfoEO.setUserId((request.getUserId().trim().toUpperCase()));
                 userInfoEO.setUserEmail(request.getUserEmail());
+                userInfoEO.setFullName(request.getFullName());
             }
 
             Timestamp timestamp = Utils.getCurrentTimeStamp();

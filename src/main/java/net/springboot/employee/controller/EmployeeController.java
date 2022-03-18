@@ -41,9 +41,9 @@ public class EmployeeController {
         return employeeRepository.save(employee);
     }
     
-    @PostMapping("saveEmployee")
+    @PostMapping("/saveEmployee")
     public @ResponseBody
-    SaveEmployeeResponse SaveEmployee(SaveEmployeeRequest request){
+    SaveEmployeeResponse SaveEmployee(@RequestBody SaveEmployeeRequest request){
         return employeeService.SaveEmployee(request);
     } 
 

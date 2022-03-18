@@ -16,8 +16,10 @@ import java.io.Serializable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterUserRequest implements Serializable {
 
+    long Id;
     String userId;
     String userEmail;
+    String fullName;
     String password;
     UserRole userRole;
     Status userStatus;

@@ -21,9 +21,12 @@ public class Product implements Serializable {
     @Column(name = "id", unique=true, nullable=false)
     private String id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_description_id", referencedColumnName = "id")
-    ProductDescription productDescriptionId;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "product_description_id", referencedColumnName = "id")
+//    ProductDescription productDescriptionId;
+
+    @Column(name = "product_description_id")
+    private String productDescriptionId;
 
     @Column(name = "amount")
     private long amount;
