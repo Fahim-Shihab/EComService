@@ -45,14 +45,17 @@ public class ProductOrder implements Serializable {
     @Column(name = "delivery_address")
     private String deliveryAddress;
 
-    @Column(name = "status")
-    private long orderStatus;
+    @Column(name = "status", length = 1)
+    private String orderStatus;
 
     @Column(name = "expected_delivery_date")
     private Date expectedDeliveryDate;
 
     @Column(name = "completed_delivery_date")
     private Date completedDeliveryDate;
+
+    @Column(name = "return_date")
+    private Date returnDate;
 
     @Column(name="entry_date")
     private Date entryDate;

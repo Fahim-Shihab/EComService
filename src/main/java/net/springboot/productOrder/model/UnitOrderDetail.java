@@ -5,5 +5,6 @@ public class UnitOrderDetail {
     private String productId;
     private long amount;
     private long price;
+    private String discountCode;
 
 }

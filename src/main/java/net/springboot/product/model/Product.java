@@ -3,6 +3,7 @@ package net.springboot.product.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.springboot.discount.model.Discount;
 import net.springboot.productDescription.model.ProductDescription;
 
 import javax.persistence.*;
@@ -41,6 +42,12 @@ public class Product implements Serializable {
 
     @Column(name="expiry_date")
     private Date expiryDate;
+
+    @Column(name = "discount_code")
+    private String discountCode;
+
+    @Column(name = "status", length = 1)
+    private String status;
 
     @Column(name="entry_date")
     private Date entryDate;

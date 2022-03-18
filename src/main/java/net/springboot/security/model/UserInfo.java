@@ -37,7 +37,7 @@ public class UserInfo implements Serializable {
     @Column(name="role")
     private String role;
 
-    @Column(name="user_status")
+    @Column(name="user_status", length = 1)
     private String userStatus;
 
     @Column(name = "contact")

@@ -1,25 +1,27 @@
-package net.springboot.vendor.model;
+package net.springboot.discount.model;
 
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.springboot.common.enums.Status;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "vendor")
+@Table(name = "discount")
 
 @TypeDefs({
         @TypeDef(
@@ -31,27 +33,26 @@ import java.util.List;
                 typeClass = IntArrayType.class
         )
 })
-
-@TypeDef(
-        name = "jsonb",
-        typeClass = JsonBinaryType.class
-)
-
-public class Vendor implements Serializable {
+public class Discount implements Serializable {
 
     @Id
     @Column(name = "id", unique=true, nullable=false)
     private String id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "code", unique = true, length = 20)
+    private String code;
 
-    @Type(type="jsonb")
-    @Column(name = "contact_info", columnDefinition = "jsonb")
-    private List<VendorContactInfo> vendorContactInfos;
+    @Column(name = "percentage_value")
+    private double percentage_value;
 
     @Column(name = "status", length = 1)
     private String status;
+
+    @Column(name = "active_from")
+    private Date activeFrom;
+
+    @Column(name = "active_to")
+    private Date activeTo;
 
     @Column(name="entry_date")
     private Date entryDate;

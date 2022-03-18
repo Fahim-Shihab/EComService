@@ -23,6 +23,6 @@ public class Role_Permissions {
     @Column(name = "permission_id")
     private String permission_id;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "status", length = 1)
+    private String status;
 }

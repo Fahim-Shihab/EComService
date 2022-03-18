@@ -21,6 +21,6 @@ public class Permission {
     @Column(name = "permission_name")
     private String permission_name;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "status", length = 1)
+    private String status;
 }
