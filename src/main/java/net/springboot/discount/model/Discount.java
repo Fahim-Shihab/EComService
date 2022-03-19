@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.springboot.common.enums.Status;
+import net.springboot.common.model.GenericModel;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -33,7 +34,7 @@ import java.util.Date;
                 typeClass = IntArrayType.class
         )
 })
-public class Discount implements Serializable {
+public class Discount extends GenericModel implements Serializable {
 
     @Id
     @Column(name = "id", unique=true, nullable=false)
@@ -45,25 +46,10 @@ public class Discount implements Serializable {
     @Column(name = "percentage_value")
     private double percentage_value;
 
-    @Column(name = "status", length = 1)
-    private String status;
-
     @Column(name = "active_from")
     private Date activeFrom;
 
     @Column(name = "active_to")
     private Date activeTo;
-
-    @Column(name="entry_date")
-    private Date entryDate;
-
-    @Column(name="upd_date")
-    private Date updDate;
-
-    @Column(name = "entry_by")
-    private long entryById;
-
-    @Column(name = "update_by")
-    private long updById;
 
 }

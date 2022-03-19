@@ -6,6 +6,7 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.springboot.common.model.GenericModel;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -37,7 +38,7 @@ import java.util.List;
         typeClass = JsonBinaryType.class
 )
 
-public class Vendor implements Serializable {
+public class Vendor extends GenericModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,20 +50,5 @@ public class Vendor implements Serializable {
     @Type(type="jsonb")
     @Column(name = "contact_info", columnDefinition = "jsonb")
     private List<VendorContactInfo> vendorContactInfos;
-
-    @Column(name = "status", length = 1)
-    private String status;
-
-    @Column(name="entry_date")
-    private Date entryDate;
-
-    @Column(name="upd_date")
-    private Date updDate;
-
-    @Column(name = "entry_by")
-    private long entryById;
-
-    @Column(name = "update_by")
-    private long updById;
 
 }

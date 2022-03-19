@@ -79,6 +79,6 @@ public class VendorService {
             LOGGER.error("VENDOR CREATION ERROR:", t);
             return new ServiceResponse(false, "Internal server error.Please contact with admin");
         }
-        return new ServiceResponse(true, "Vendor has been registered successfully");
+        return new ServiceResponse(true, "Vendor has been saved successfully");
     }
 }

@@ -4,6 +4,7 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.springboot.common.model.GenericModel;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -23,7 +24,7 @@ import java.util.List;
         typeClass = JsonBinaryType.class
 )
 
-public class ProductOrder implements Serializable {
+public class ProductOrder extends GenericModel implements Serializable {
 
     @Id
     @Column(name = "id", unique=true, nullable=false)
@@ -45,7 +46,7 @@ public class ProductOrder implements Serializable {
     @Column(name = "delivery_address")
     private String deliveryAddress;
 
-    @Column(name = "status", length = 1)
+    @Column(name = "order_status", length = 1)
     private String orderStatus;
 
     @Column(name = "expected_delivery_date")
@@ -56,11 +57,5 @@ public class ProductOrder implements Serializable {
 
     @Column(name = "return_date")
     private Date returnDate;
-
-    @Column(name="entry_date")
-    private Date entryDate;
-
-    @Column(name="upd_date")
-    private Date updDate;
 
 }
