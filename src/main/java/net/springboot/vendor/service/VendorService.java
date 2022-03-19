@@ -8,6 +8,8 @@ import net.springboot.employee.payload.SaveEmployeeResponse;
 import net.springboot.lookup.repository.BaseRepository;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
+import net.springboot.vendor.payload.GetVendorsRequest;
+import net.springboot.vendor.payload.GetVendorsResponse;
 import net.springboot.vendor.payload.SaveVendorRequest;
 import net.springboot.vendor.repository.VendorRepository;
 import org.slf4j.Logger;
@@ -38,5 +40,9 @@ public class VendorService {
         }
 
         return vendorRepository.SaveVendor(request);
+    }
+
+    public GetVendorsResponse GetVendor(GetVendorsRequest request){
+        return vendorRepository.GetVendor(request);
     }
 }

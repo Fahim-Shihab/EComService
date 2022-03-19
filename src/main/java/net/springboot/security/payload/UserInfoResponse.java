@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.springboot.common.base.ServiceResponse;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,5 +25,5 @@ public class UserInfoResponse extends ServiceResponse implements Serializable {
     }
 
     List<SingleUserInfo> userList;
-    int total;
+    BigInteger total;
 }

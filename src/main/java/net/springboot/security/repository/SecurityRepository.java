@@ -2,6 +2,7 @@ package net.springboot.security.repository;
 
 import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
+import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
 import net.springboot.lookup.repository.BaseRepository;
 import net.springboot.security.model.UserInfo;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,30 +103,31 @@ public class SecurityRepository {
     @Transactional
     public UserInfoResponse GetUserInfo(UserInfoRequest request) {
 
+        SearchUtil util = new SearchUtil();
+
         try {
             UserInfoResponse userInfoResponse = new UserInfoResponse();
 
             String sql = "SELECT * FROM user_info WHERE 1=1 ";
+            String sqlCount = "SELECT COUNT(*) FROM user_info WHERE 1=1 ";
             Map<String, Object> params = new HashMap<>();
+
+            String whereClause = "";
+
             if (Utils.isOk(request.getUserId())) {
-                sql += " AND user_id=:userId ";
-                params.put("userId", request.getUserId().toUpperCase());
+                whereClause += " AND user_id = '"+request.getUserId().toUpperCase()+"'";
             }
             if (Utils.isOk(request.getFullName())) {
-                sql += " AND full_name=:fullName ";
-                params.put("fullName", request.getFullName());
+                whereClause += " AND Upper(full_name) LIKE '%"+request.getFullName().toUpperCase()+"%'";
             }
             if (Utils.isOk(request.getUserEmail())) {
-                sql += " AND user_email=:email ";
-                params.put("email", request.getUserEmail());
+                whereClause += " AND user_email LIKE '%"+request.getUserEmail()+"%'";
             }
             if (Utils.isOk(request.getUserRole())) {
-                sql += " AND role=:userRole ";
-                params.put("userRole", request.getUserRole().getCode());
+                whereClause += " AND role = '"+request.getUserRole().getCode()+"'";
             }
             if (Utils.isOk(request.getUserStatus())) {
-                sql += " AND user_status=:status ";
-                params.put("status", request.getUserStatus().getCode());
+                whereClause += " AND user_status = '"+request.getUserStatus().getCode()+"'";
             }
             if (request.getPage() - 1 <= 0) {
                 request.setPage(0);
@@ -134,8 +138,24 @@ public class SecurityRepository {
                 request.setSize(Defs.DEFAULT_LIMIT);
             }
 
-            List<UserInfo> userInfoList = repository.findByNativeQuery
-                    (sql, UserInfo.class, params, request.getPage() * request.getSize(), request.getSize());
+            sql += whereClause;
+            sqlCount += whereClause;
+
+            Query qCount = em.createNativeQuery(sqlCount);
+
+            BigInteger count = (BigInteger) qCount.getSingleResult();
+
+            if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
+                return new UserInfoResponse("Could not find user");
+            }
+
+            Query q = em.createNativeQuery(sql, UserInfo.class);
+            q.setFirstResult(request.getPage()*request.getSize());
+            q.setMaxResults(request.getSize());
+            q = util.setQueryParameter(q,request);
+
+            List<UserInfo> userInfoList = q.getResultList();
+
             if (userInfoList != null) {
 
                 List<SingleUserInfo> list = new ArrayList<>();
@@ -152,7 +172,7 @@ public class SecurityRepository {
                     list.add(obj);
                 });
                 userInfoResponse.setUserList(list);
-                userInfoResponse.setTotal(list.size());
+                userInfoResponse.setTotal(count);
 
                 return userInfoResponse;
             }
