@@ -37,11 +37,9 @@ public class VendorRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(VendorRepository.class);
 
     private final BaseRepository repository;
-    private final PasswordEncoder passwordEncoder;
 
-    public VendorRepository(BaseRepository repository, PasswordEncoder passwordEncoder){
+    public VendorRepository(BaseRepository repository){
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional

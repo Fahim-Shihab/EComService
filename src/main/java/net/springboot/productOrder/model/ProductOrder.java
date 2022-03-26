@@ -58,4 +58,7 @@ public class ProductOrder extends GenericModel implements Serializable {
     @Column(name = "return_date")
     private Date returnDate;
 
+    @Column(name = "comments")
+    private String comments;
+
 }

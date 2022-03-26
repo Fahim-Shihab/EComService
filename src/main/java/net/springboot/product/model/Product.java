@@ -25,8 +25,9 @@ public class Product extends GenericModel implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "product_type")
-    private long productType;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_type", referencedColumnName = "id")
+    ProductType productType;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vendor_id", referencedColumnName = "id")

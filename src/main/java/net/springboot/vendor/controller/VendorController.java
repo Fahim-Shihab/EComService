@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/vendor")
 public class VendorController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VendorController.class);
-
     private final VendorService vendorService;
 
     public VendorController(VendorService vendorService)
@@ -29,7 +27,7 @@ public class VendorController {
         return vendorService.SaveVendor(request);
     }
 
-    @PostMapping("getVendor")
+    @PostMapping("/getVendor")
     public @ResponseBody
     GetVendorsResponse GetVendor(@RequestBody GetVendorsRequest request){
         return vendorService.GetVendor(request);

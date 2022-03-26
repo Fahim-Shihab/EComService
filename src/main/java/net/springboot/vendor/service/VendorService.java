@@ -26,8 +26,6 @@ public class VendorService {
 
     private final VendorRepository vendorRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VendorService.class);
-
     public VendorService(VendorRepository vendorRepository)
     {
         this.vendorRepository = vendorRepository;
