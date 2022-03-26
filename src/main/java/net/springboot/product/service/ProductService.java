@@ -28,6 +28,6 @@ public class ProductService {
     }
 
     public GetProductTypeResponse GetProductType(GetProductTypeRequest request) {
-        return productRepository.GetVendor(request);
+        return productRepository.GetProductType(request);
     }
 }

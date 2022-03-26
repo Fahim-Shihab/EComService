@@ -82,7 +82,7 @@ public class ProductRepository {
     }
 
     @Transactional
-    public GetProductTypeResponse GetVendor(GetProductTypeRequest request)
+    public GetProductTypeResponse GetProductType(GetProductTypeRequest request)
     {
         SearchUtil util = new SearchUtil();
 
