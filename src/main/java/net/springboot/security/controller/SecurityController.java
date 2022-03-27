@@ -1,9 +1,7 @@
 package net.springboot.security.controller;
 
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.security.payload.LoginRequest;
-import net.springboot.security.payload.LoginResponse;
-import net.springboot.security.payload.RegisterUserRequest;
+import net.springboot.security.payload.*;
 import net.springboot.security.service.SecurityService;
 import net.springboot.security.service.UserService;
 import org.slf4j.Logger;
@@ -33,6 +31,12 @@ public class SecurityController {
     public @ResponseBody
     LoginResponse login(@RequestBody LoginRequest request) {
         return securityService.login(request);
+    }
+
+    @PostMapping("/getuserinfo")
+    public @ResponseBody
+    UserInfoResponse getUserInfo(@RequestBody UserInfoRequest request) {
+        return securityService.GetUserInfo(request);
     }
 
 }

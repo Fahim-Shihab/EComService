@@ -16,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class LoggedInUser implements Serializable, UserDetails {
+    private long id;
     private String userId;
     private String email;
     private String password;
@@ -27,10 +28,11 @@ public class LoggedInUser implements Serializable, UserDetails {
 
     public LoggedInUser(UserInfo userInfoEO) {
         if(userInfoEO != null) {
-            this.userId = userInfoEO.getUserInfoId().getUserId();
-            this.email = userInfoEO.getUserInfoId().getUserEmail();
+            this.id = userInfoEO.getId();
+            this.userId = userInfoEO.getUserId();
+            this.email = userInfoEO.getUserEmail();
             this.password = userInfoEO.getPassword();
-            this.userType = userInfoEO.getUserType();
+            this.userType = userInfoEO.getRole();
             this.userStatus = userInfoEO.getUserStatus();
             this.entryDate = userInfoEO.getEntryDate();
             this.updDate = userInfoEO.getUpdDate();
