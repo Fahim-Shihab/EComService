@@ -1,4 +1,4 @@
-package net.springboot.product.payload;
+package net.springboot.product.payload.productType;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

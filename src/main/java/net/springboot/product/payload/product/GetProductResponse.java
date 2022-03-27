@@ -1,24 +1,23 @@
-package net.springboot.product.payload;
+package net.springboot.product.payload.product;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.springboot.common.base.ServiceResponse;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-public class GetProductTypeResponse extends ServiceResponse implements Serializable {
-    private List<ProductTypeDto> productTypeList;
+public class GetProductResponse extends ServiceResponse {
+    private List<ProductDto> productTypeList;
 
-    public GetProductTypeResponse(){
+    public GetProductResponse(){
         productTypeList = new ArrayList<>();
     }
 
-    public GetProductTypeResponse(String message) {
+    public GetProductResponse(String message) {
         super(false, message);
     }
 

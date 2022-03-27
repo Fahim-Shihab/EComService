@@ -1,16 +1,13 @@
 package net.springboot.product.repository;
 
-import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
 import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.product.model.Product;
 import net.springboot.product.model.ProductType;
-import net.springboot.product.payload.GetProductTypeRequest;
-import net.springboot.product.payload.GetProductTypeResponse;
-import net.springboot.product.payload.ProductTypeDto;
-import net.springboot.product.payload.SaveProductTypeRequest;
+import net.springboot.product.payload.product.SaveProductRequest;
 import net.springboot.security.model.LoggedInUser;
+import net.springboot.vendor.model.Vendor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class ProductRepository {
@@ -33,7 +27,7 @@ public class ProductRepository {
     @PersistenceContext
     EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductTypeRepository.class);
 
     private final BaseRepository repository;
 
@@ -42,124 +36,96 @@ public class ProductRepository {
     }
 
     @Transactional
-    public ServiceResponse SaveProductType(SaveProductTypeRequest request){
-
-        try {
-
-            boolean isUpdate = false;
-            ProductType productType = new ProductType();
-
-            if (Utils.isOk(request.getId())) {
-                String sql = "SELECT * FROM product_type WHERE id=:typeId ";
-                Map<String, Object> params = new HashMap<>();
-                params.clear();
-                params.put("typeId", request.getId());
-                productType = repository.findSingleResultByNativeQuery(sql, ProductType.class, params);
-
-                if (productType != null) {
-                    isUpdate = true;
-                    productType.setId(request.getId());
-                } else {
-                    productType = new ProductType();
-                }
-            }
-
-            productType.setCategory(request.getCategory());
-            productType.setSubCategory(request.getSubCategory());
-            productType.setStatus(request.getStatus().getCode());
-
-            if(!isUpdate) {
-                repository.persist(productType);
-            }
-            else if(isUpdate) {
-                repository.merge(productType);
-            }
-        } catch (Throwable t) {
-            LOGGER.error("PRODUCT TYPE SAVE ERROR:", t);
-            return new ServiceResponse(false, "Internal server error. Please contact with admin");
-        }
-        return new ServiceResponse(true, "PRODUCT TYPE has been saved successfully");
-    }
-
-    @Transactional
-    public GetProductTypeResponse GetProductType(GetProductTypeRequest request)
-    {
-        SearchUtil util = new SearchUtil();
-
+    public ServiceResponse SaveProduct(SaveProductRequest request){
         try{
 
-            GetProductTypeResponse response = new GetProductTypeResponse();
-
-            String sql = "SELECT * FROM product_type WHERE 1=1 ";
-            String sqlCount = "SELECT COUNT(*) FROM product_type WHERE 1=1 ";
-            Map<String, Object> params = new HashMap<>();
-
-            String whereClause = "";
+            boolean isUpdate = false;
+            Product product = new Product();
 
             if (Utils.isOk(request.getId())) {
-                whereClause += " AND id = '"+request.getId()+"'";
-            }
-            if (Utils.isOk(request.getCategory())){
-                whereClause += " AND Upper(category) LIKE '%"+request.getCategory().toUpperCase()+"%'";
-            }
-            if (Utils.isOk(request.getSubCategory())){
-                whereClause += " AND Upper(sub_category) LIKE '%"+request.getSubCategory().toUpperCase()+"%'";
-            }
-            if (Utils.isOk(request.getStatus())) {
-                whereClause += " AND status = '"+request.getStatus().getCode()+"'";
-            }
+                String sql = "SELECT * FROM product WHERE id=:Id ";
+                Map<String, Object> params = new HashMap<>();
+                params.clear();
+                params.put("Id", request.getId());
+                product = repository.findSingleResultByNativeQuery(sql, Product.class, params);
 
-            if (request.getPage() - 1 <= 0) {
-                request.setPage(0);
-            } else {
-                request.setPage(request.getPage() - 1);
+                if (product != null) {
+                    isUpdate = true;
+                    product.setId(request.getId());
+                } else {
+                    product = new Product();
+                    product.setId(UUID.randomUUID().toString().substring(0,10));
+                }
             }
-            if (request.getSize() == 0) {
-                request.setSize(Defs.DEFAULT_LIMIT);
+            else{
+                product = new Product();
+                product.setId(UUID.randomUUID().toString().substring(0,10));
             }
 
-            sql += whereClause;
-            sqlCount += whereClause;
+            if (request.getVendorId() > 0) {
+                String sql = "SELECT * FROM vendor WHERE id=:vendorId ";
+                Map<String, Object> params = new HashMap<>();
+                params.clear();
+                params.put("vendorId", request.getVendorId());
+                Vendor vendor = repository.findSingleResultByNativeQuery(sql, Vendor.class, params);
 
-            Query qCount = em.createNativeQuery(sqlCount);
-
-            BigInteger count = (BigInteger) qCount.getSingleResult();
-
-            if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
-                return new GetProductTypeResponse("Could not find product type");
+                if (vendor == null) {
+                    return new ServiceResponse(false, "Wrong vendor id");
+                } else {
+                    product.setVendorId(vendor);
+                }
+            }
+            else{
+                return new ServiceResponse(false, "Vendor is required");
             }
 
-            Query q = em.createNativeQuery(sql, ProductType.class);
-            q.setFirstResult(request.getPage()*request.getSize());
-            q.setMaxResults(request.getSize());
-            q = util.setQueryParameter(q,request);
+            if (request.getProductType() > 0) {
+                String sql = "SELECT * FROM product_type WHERE id=:queryId ";
+                Map<String, Object> params = new HashMap<>();
+                params.clear();
+                params.put("queryId", request.getVendorId());
+                ProductType productType = repository.findSingleResultByNativeQuery(sql, ProductType.class, params);
 
-            List<ProductType> entitylist = q.getResultList();
+                if (productType == null) {
+                    return new ServiceResponse(false, "Wrong product type");
+                } else {
+                    product.setProductType(productType);
+                }
+            }
+            else{
+                return new ServiceResponse(false,"Product Type is required");
+            }
 
-            if (entitylist != null) {
+            product.setAmount(request.getAmount());
+            product.setName(request.getName());
+            product.setPurchaseCost(request.getPurchaseCost());
+            product.setUnitPrice(request.getUnitPrice());
+            product.setStatus(request.getStatus().getCode());
+            product.setExpiryDate(Utils.getDate(request.getExpiryDate(), "dd/MM/yyyy"));
+            product.setManufactureDate(Utils.getDate(request.getManufactureDate(),"dd/MM/yyyy"));
+            product.setPurchaseDate(Utils.getDate(request.getPurchaseDate(),"dd/MM/yyyy"));
 
-                List<ProductTypeDto> list = new ArrayList<>();
-                entitylist.forEach(productType -> {
-                    ProductTypeDto obj = new ProductTypeDto();
-                    obj.setId(productType.getId());
-                    obj.setCategory(productType.getCategory());
-                    obj.setSubCategory(productType.getSubCategory());
-                    obj.setStatus(productType.getStatus());
+            Timestamp timestamp = Utils.getCurrentTimeStamp();
 
-                    list.add(obj);
-                });
-                response.setProductTypeList(list);
-                response.setTotal(count);
+            LoggedInUser user = (LoggedInUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-                return response;
+            if(!isUpdate) {
+                product.setEntryDate(timestamp);
+                product.setEntryById(user.getId());
+
+                repository.persist(product);
+            }
+            else if(isUpdate) {
+                product.setUpdDate(timestamp);
+                product.setUpdById(user.getId());
+
+                repository.merge(product);
             }
 
         }catch (Throwable t) {
-            LOGGER.error("Product Type fetch ERROR:", t);
-            return new GetProductTypeResponse("Internal server error. Please contact with admin");
+            LOGGER.error("PRODUCT SAVE ERROR:", t);
+            return new ServiceResponse(false, "Internal server error. Please contact with admin");
         }
-
-        return new GetProductTypeResponse();
+        return new ServiceResponse(true, "PRODUCT has been saved successfully");
     }
-
 }
