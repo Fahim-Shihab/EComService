@@ -6,10 +6,12 @@ import lombok.Setter;
 import net.springboot.common.model.GenericModel;
 import net.springboot.discount.model.Discount;
 import net.springboot.vendor.model.Vendor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,9 +27,15 @@ public class Product extends GenericModel implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_type", referencedColumnName = "id")
-    ProductType productType;
+    @Column(name = "type")
+    private long type;
+
+    @Type(type="jsonb")
+    @Column(name = "category", columnDefinition = "jsonb")
+    private List<ProductCategory> details;
+
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vendor_id", referencedColumnName = "id")

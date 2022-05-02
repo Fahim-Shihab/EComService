@@ -4,7 +4,6 @@ import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.Utils;
 import net.springboot.lookup.repository.BaseRepository;
 import net.springboot.product.model.Product;
-import net.springboot.product.model.ProductType;
 import net.springboot.product.payload.product.SaveProductRequest;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
@@ -27,7 +26,7 @@ public class ProductRepository {
     @PersistenceContext
     EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductTypeRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductRepository.class);
 
     private final BaseRepository repository;
 
@@ -79,23 +78,21 @@ public class ProductRepository {
                 return new ServiceResponse(false, "Vendor is required");
             }
 
-            if (request.getProductType() > 0) {
-                String sql = "SELECT * FROM product_type WHERE id=:queryId ";
-                Map<String, Object> params = new HashMap<>();
-                params.clear();
-                params.put("queryId", request.getVendorId());
-                ProductType productType = repository.findSingleResultByNativeQuery(sql, ProductType.class, params);
-
-                if (productType == null) {
-                    return new ServiceResponse(false, "Wrong product type");
-                } else {
-                    product.setProductType(productType);
-                }
+            if (request.getType() > 0){
+                product.setType(request.getType());
             }
             else{
-                return new ServiceResponse(false,"Product Type is required");
+                return new ServiceResponse(false, "Wrong Product Type provided");
             }
 
+            if (request.getDetails() != null) {
+                product.setDetails(request.getDetails());
+            }
+            else{
+                return new ServiceResponse(false,"Product details is required");
+            }
+
+            product.setDescription(request.getDescription());
             product.setAmount(request.getAmount());
             product.setName(request.getName());
             product.setPurchaseCost(request.getPurchaseCost());
