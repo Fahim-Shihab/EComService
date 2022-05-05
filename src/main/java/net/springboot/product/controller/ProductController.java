@@ -3,6 +3,7 @@ package net.springboot.product.controller;
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.product.payload.product.GetProductRequest;
 import net.springboot.product.payload.product.GetProductResponse;
+import net.springboot.product.payload.product.ProductDto;
 import net.springboot.product.payload.product.SaveProductRequest;
 import net.springboot.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class ProductController {
     public @ResponseBody
     ServiceResponse SaveProduct(@RequestBody SaveProductRequest request){
         return productService.SaveProduct(request);
+    }
+
+    @PostMapping("/get")
+    public @ResponseBody
+    GetProductResponse GetProduct(@RequestBody GetProductRequest request){
+        return productService.GetProduct(request);
     }
 
 }

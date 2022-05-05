@@ -1,9 +1,15 @@
 package net.springboot.product.repository;
 
+import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
+import net.springboot.common.enums.Status;
+import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
 import net.springboot.lookup.repository.BaseRepository;
 import net.springboot.product.model.Product;
+import net.springboot.product.payload.product.GetProductRequest;
+import net.springboot.product.payload.product.GetProductResponse;
+import net.springboot.product.payload.product.ProductDto;
 import net.springboot.product.payload.product.SaveProductRequest;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
@@ -15,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class ProductRepository {
@@ -101,6 +107,7 @@ public class ProductRepository {
             product.setExpiryDate(Utils.getDate(request.getExpiryDate(), "dd/MM/yyyy"));
             product.setManufactureDate(Utils.getDate(request.getManufactureDate(),"dd/MM/yyyy"));
             product.setPurchaseDate(Utils.getDate(request.getPurchaseDate(),"dd/MM/yyyy"));
+            product.setDiscountCode(request.getDiscountCode());
 
             Timestamp timestamp = Utils.getCurrentTimeStamp();
 
@@ -124,5 +131,110 @@ public class ProductRepository {
             return new ServiceResponse(false, "Internal server error. Please contact with admin");
         }
         return new ServiceResponse(true, "PRODUCT has been saved successfully");
+    }
+
+    @Transactional
+    public GetProductResponse GetProduct(GetProductRequest request){
+        SearchUtil util = new SearchUtil();
+
+        try{
+
+            GetProductResponse response = new GetProductResponse();
+
+            String sql = "SELECT * FROM product WHERE 1=1 ";
+            String sqlCount = "SELECT COUNT(*) FROM product WHERE 1=1 ";
+            Map<String, Object> params = new HashMap<>();
+
+            String whereClause = "";
+
+            if (Utils.isOk(request.getId())) {
+                whereClause += " AND id = '"+request.getId()+"'";
+            }
+            if (Utils.isOk(request.getName())){
+                whereClause += " AND Upper(name) LIKE '%"+request.getName().toUpperCase()+"%'";
+            }
+            if (Utils.isOk(request.getStatus())) {
+                whereClause += " AND status = '"+request.getStatus().getCode()+"'";
+            }
+            if (Utils.isOk(request.getType())){
+                whereClause += " AND type = '"+request.getType()+"'";
+            }
+
+//            if (Utils.isOk(request.getDiscountCode())){
+//                whereClause += " AND discountCode = '"+request.getDiscountCode()+"'";
+//            }
+
+//            if (Utils.isOk(request.getMinPrice())){
+//                whereClause += " AND unitPrice >= "+request.getMinPrice();
+//            }
+//            if (Utils.isOk(request.getMaxPrice())){
+//                whereClause += " AND unitPrice <="+request.getMaxPrice();
+//            }
+
+//            if (Utils.isOk(request.getVendorId())){
+//                whereClause += " AND vendorId = '"+request.getVendorId()+"'";
+//            }
+
+            if (request.getPage() - 1 <= 0) {
+                request.setPage(0);
+            } else {
+                request.setPage(request.getPage() - 1);
+            }
+            if (request.getSize() == 0) {
+                request.setSize(Defs.DEFAULT_LIMIT);
+            }
+
+            sql += whereClause;
+            sqlCount += whereClause;
+
+            Query qCount = em.createNativeQuery(sqlCount);
+
+            BigInteger count = (BigInteger) qCount.getSingleResult();
+
+            if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
+                return new GetProductResponse("Could not find product");
+            }
+
+            Query q = em.createNativeQuery(sql, Product.class);
+            q.setFirstResult(request.getPage()*request.getSize());
+            q.setMaxResults(request.getSize());
+//            q = util.setQueryParameter(q,request);
+
+            List<Product> entitylist = q.getResultList();
+
+            if (entitylist != null) {
+
+                List<ProductDto> list = new ArrayList<>();
+                entitylist.forEach(product -> {
+                    ProductDto obj = new ProductDto();
+                    obj.setId(product.getId());
+                    obj.setName(product.getName());
+                    obj.setStatus(product.getStatus());
+                    obj.setAmount(product.getAmount());
+                    obj.setDescription(product.getDescription());
+                    obj.setDetails(product.getDetails());
+                    obj.setDiscountCode(product.getDiscountCode());
+                    //obj.setExpiryDate(product.getExpiryDate().toString());
+                    obj.setPurchaseCost(product.getPurchaseCost());
+                    //obj.setPurchaseDate(product.getPurchaseDate().toString());
+                    obj.setType(product.getType());
+                    obj.setUnitPrice(product.getUnitPrice());
+                    //obj.setManufactureDate(product.getManufactureDate().toString());
+                    obj.setVendorName(product.getVendorId().getName());
+
+                    list.add(obj);
+                });
+                response.setProductList(list);
+                response.setTotal(count);
+
+                return response;
+            }
+
+        }catch (Throwable t) {
+            LOGGER.error("Product fetch ERROR:", t);
+            return new GetProductResponse("Internal server error. Please contact with admin");
+        }
+
+        return new GetProductResponse();
     }
 }

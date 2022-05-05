@@ -18,14 +18,14 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
-    @PostMapping("/saveVendor")
+    @PostMapping("/save")
     public @ResponseBody
     ServiceResponse SaveVendor(@RequestBody SaveVendorRequest request)
     {
         return vendorService.SaveVendor(request);
     }
 
-    @PostMapping("/getVendor")
+    @PostMapping("/get")
     public @ResponseBody
     GetVendorsResponse GetVendor(@RequestBody GetVendorsRequest request){
         return vendorService.GetVendor(request);

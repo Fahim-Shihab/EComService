@@ -11,10 +11,10 @@ import java.util.List;
 @Getter
 @Setter
 public class GetProductResponse extends ServiceResponse {
-    private List<ProductDto> productTypeList;
+    private List<ProductDto> productList;
 
     public GetProductResponse(){
-        productTypeList = new ArrayList<>();
+        productList = new ArrayList<>();
     }
 
     public GetProductResponse(String message) {

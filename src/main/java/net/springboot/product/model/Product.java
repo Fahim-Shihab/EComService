@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.springboot.common.model.GenericModel;
-import net.springboot.discount.model.Discount;
 import net.springboot.vendor.model.Vendor;
 import org.hibernate.annotations.Type;
 
@@ -62,8 +61,7 @@ public class Product extends GenericModel implements Serializable {
     @Column(name="expiry_date")
     private Date expiryDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "discount_code", referencedColumnName = "code")
-    Discount discountCode;
+    @Column(name = "discount_code")
+    private String discountCode;
 
 }

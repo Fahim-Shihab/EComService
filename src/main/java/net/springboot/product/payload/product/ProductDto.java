@@ -14,11 +14,11 @@ public class ProductDto {
     long type;
     List<ProductCategory> details;
     String description;
-    long vendorId;
+    String vendorName;
     String photo;
     long amount;
     double purchaseCost;
-    String unitPrice;
+    double unitPrice;
     String purchaseDate;
     String manufactureDate;
     String expiryDate;
