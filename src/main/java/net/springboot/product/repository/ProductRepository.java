@@ -160,9 +160,9 @@ public class ProductRepository {
                 whereClause += " AND type = '"+request.getType()+"'";
             }
 
-//            if (Utils.isOk(request.getDiscountCode())){
-//                whereClause += " AND discountCode = '"+request.getDiscountCode()+"'";
-//            }
+            if (Utils.isOk(request.getDiscountCode())){
+                whereClause += " AND discount_code = '"+request.getDiscountCode()+"'";
+            }
 
 //            if (Utils.isOk(request.getMinPrice())){
 //                whereClause += " AND unitPrice >= "+request.getMinPrice();
@@ -189,6 +189,7 @@ public class ProductRepository {
 
             Query qCount = em.createNativeQuery(sqlCount);
 
+            qCount = util.setQueryParameter(qCount, request);
             BigInteger count = (BigInteger) qCount.getSingleResult();
 
             if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
@@ -198,7 +199,7 @@ public class ProductRepository {
             Query q = em.createNativeQuery(sql, Product.class);
             q.setFirstResult(request.getPage()*request.getSize());
             q.setMaxResults(request.getSize());
-//            q = util.setQueryParameter(q,request);
+            q = util.setQueryParameter(q,request);
 
             List<Product> entitylist = q.getResultList();
 
