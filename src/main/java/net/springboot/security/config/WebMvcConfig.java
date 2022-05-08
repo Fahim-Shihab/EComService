@@ -1,6 +1,6 @@
 package net.springboot.security.config;
 
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

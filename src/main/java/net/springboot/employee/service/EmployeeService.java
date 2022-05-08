@@ -4,7 +4,7 @@ import net.springboot.common.util.Utils;
 import net.springboot.employee.model.Employee;
 import net.springboot.employee.payload.SaveEmployeeRequest;
 import net.springboot.employee.payload.SaveEmployeeResponse;
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.security.model.UserInfo;
 import org.slf4j.Logger;

@@ -4,7 +4,7 @@ import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
 import net.springboot.vendor.payload.GetVendorsRequest;
@@ -14,7 +14,6 @@ import net.springboot.vendor.payload.VendorDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

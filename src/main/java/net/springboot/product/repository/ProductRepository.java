@@ -2,10 +2,9 @@ package net.springboot.product.repository;
 
 import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.common.enums.Status;
 import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.product.model.Product;
 import net.springboot.product.payload.product.GetProductRequest;
 import net.springboot.product.payload.product.GetProductResponse;

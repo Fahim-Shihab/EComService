@@ -1,4 +1,4 @@
-package net.springboot.lookup.repository;
+package net.springboot.common.repository;
 
 import net.springboot.common.base.Defs;
 import net.springboot.common.util.Utils;

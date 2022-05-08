@@ -1,6 +1,6 @@
 package net.springboot.security.service;
 
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.security.model.UserInfo;
 import org.springframework.security.core.userdetails.UserDetails;

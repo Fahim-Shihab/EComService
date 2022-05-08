@@ -1,13 +1,10 @@
 package net.springboot.security.service;
 
-import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.Utils;
-import net.springboot.lookup.repository.BaseRepository;
+import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.config.JwtUtils;
 import net.springboot.security.model.LoggedInUser;
-import net.springboot.security.model.UserInfo;
-import net.springboot.security.model.UserInfoId;
 import net.springboot.security.payload.*;
 import net.springboot.security.repository.SecurityRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,16 +13,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class SecurityService {
