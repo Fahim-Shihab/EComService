@@ -30,35 +30,35 @@ public class ProductOrder extends GenericModel implements Serializable {
     @Column(name = "id", unique=true, nullable=false)
     private String id;
 
-    @Type(type="jsonb")
-    @Column(name = "unit_order_details", columnDefinition = "jsonb")
-    private List<UnitOrderDetail> unitOrderDetails;
+//    @Type(type="jsonb")
+//    @Column(name = "unit_order_details", columnDefinition = "jsonb")
+//    private List<UnitOrderDetail> unitOrderDetails;
 
-    @Column(name = "order_by", nullable = false)
-    private long orderBy;
+    @Column(name = "product_id", nullable = false)
+    private String productId;
 
-    @Column(name = "order_date")
-    private Date orderDate;
+    @Column(name = "amount", nullable = false)
+    private long amount;
 
-    @Column(name = "total_price")
-    private double totalPrice;
+    @Column(name = "price", nullable = false)
+    private long price;
 
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
+    @Column(name = "discount_code", nullable = false)
+    private String discountCode;
+
+    @Column(name = "order_id", nullable = false)
+    private String orderId;
 
     @Column(name = "order_status", length = 1)
     private String orderStatus;
 
-    @Column(name = "expected_delivery_date")
-    private Date expectedDeliveryDate;
+    @Column(name = "customer_comments")
+    private String customerComments;
 
-    @Column(name = "completed_delivery_date")
-    private Date completedDeliveryDate;
+    @Column(name = "admin_comments")
+    private String adminComments;
 
     @Column(name = "return_date")
     private Date returnDate;
-
-    @Column(name = "comments")
-    private String comments;
 
 }
