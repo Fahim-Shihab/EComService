@@ -1,11 +1,9 @@
 package net.springboot.productOrder.controller;
 
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.productOrder.payload.ProductOrderRequest;
+import net.springboot.productOrder.payload.OrderDetailSaveRequest;
 import net.springboot.productOrder.service.ProductOrderService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/productOrder")
@@ -19,7 +17,7 @@ public class ProductOrderController {
 
     @PostMapping("/save")
     public @ResponseBody
-    ServiceResponse SaveProductOrder(@RequestBody List<ProductOrderRequest> request){
+    ServiceResponse SaveProductOrder(@RequestBody OrderDetailSaveRequest request){
         return productOrderService.SaveProductOrder(request);
     }
 //

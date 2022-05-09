@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,4 +18,5 @@ public class ProductOrderRequest implements Serializable {
     private String orderStatus;
     private String customerComments;
     private String adminComments;
+    private Date returnDate;
 }

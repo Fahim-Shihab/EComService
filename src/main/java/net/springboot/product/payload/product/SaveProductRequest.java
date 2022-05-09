@@ -6,6 +6,7 @@ import net.springboot.common.enums.Status;
 import net.springboot.product.model.ProductCategory;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -21,9 +22,9 @@ public class SaveProductRequest implements Serializable {
     long amount;
     double purchaseCost;
     double unitPrice;
-    String purchaseDate;
-    String manufactureDate;
-    String expiryDate;
+    Date purchaseDate;
+    Date manufactureDate;
+    Date expiryDate;
     String discountCode;
     Status status;
 }

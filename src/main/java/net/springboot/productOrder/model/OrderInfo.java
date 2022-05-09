@@ -1,4 +1,4 @@
-package net.springboot.orderInformation.model;
+package net.springboot.productOrder.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

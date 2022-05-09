@@ -1,4 +1,4 @@
-package net.springboot.orderInformation.payload;
+package net.springboot.productOrder.payload;
 
 import lombok.Getter;
 import lombok.Setter;

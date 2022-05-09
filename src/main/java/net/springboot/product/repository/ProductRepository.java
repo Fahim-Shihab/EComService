@@ -103,9 +103,9 @@ public class ProductRepository {
             product.setPurchaseCost(request.getPurchaseCost());
             product.setUnitPrice(request.getUnitPrice());
             product.setStatus(request.getStatus().getCode());
-            product.setExpiryDate(Utils.getDate(request.getExpiryDate(), "dd/MM/yyyy"));
-            product.setManufactureDate(Utils.getDate(request.getManufactureDate(),"dd/MM/yyyy"));
-            product.setPurchaseDate(Utils.getDate(request.getPurchaseDate(),"dd/MM/yyyy"));
+            product.setExpiryDate(request.getExpiryDate());
+            product.setManufactureDate(request.getManufactureDate());
+            product.setPurchaseDate(request.getPurchaseDate());
             product.setDiscountCode(request.getDiscountCode());
 
             Timestamp timestamp = Utils.getCurrentTimeStamp();

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.springboot.common.model.GenericModel;
+import net.springboot.product.model.Product;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -34,8 +35,9 @@ public class ProductOrder extends GenericModel implements Serializable {
 //    @Column(name = "unit_order_details", columnDefinition = "jsonb")
 //    private List<UnitOrderDetail> unitOrderDetails;
 
-    @Column(name = "product_id", nullable = false)
-    private String productId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    Product productId;
 
     @Column(name = "amount", nullable = false)
     private long amount;
@@ -43,7 +45,7 @@ public class ProductOrder extends GenericModel implements Serializable {
     @Column(name = "price", nullable = false)
     private long price;
 
-    @Column(name = "discount_code", nullable = false)
+    @Column(name = "discount_code")
     private String discountCode;
 
     @Column(name = "order_id", nullable = false)
