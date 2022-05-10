@@ -122,7 +122,7 @@ public class ProductOrderRepository {
                     params.put("Id", obj.getId());
                     productOrder = repository.findSingleResultByNativeQuery(sql, ProductOrder.class, params);
 
-                    if (orderInfo != null) {
+                    if (productOrder != null) {
                         isOrderUpdate = true;
                         productOrder.setId(obj.getId());
                     } else {
