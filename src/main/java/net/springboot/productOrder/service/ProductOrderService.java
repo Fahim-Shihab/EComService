@@ -1,6 +1,8 @@
 package net.springboot.productOrder.service;
 
 import net.springboot.common.base.ServiceResponse;
+import net.springboot.productOrder.payload.GetOrderInfoRequest;
+import net.springboot.productOrder.payload.GetOrderInfoResponse;
 import net.springboot.productOrder.payload.OrderDetailSaveRequest;
 import net.springboot.productOrder.repository.ProductOrderRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class ProductOrderService {
         return productOrderRepository.SaveProductOrder(request);
     }
 
-//    public GetProductResponse GetProduct(GetProductRequest request){
-//        return productRepository.GetProduct(request);
-//    }
+    public GetOrderInfoResponse GetProductOrder(GetOrderInfoRequest request){
+        return productOrderRepository.GetProductOrder(request);
+    }
 }

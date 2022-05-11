@@ -35,6 +35,7 @@ public class VendorRepositoryImpl implements VendorRepository {
     @Autowired
     VendorDaoImpl vendorDaoImpl;
 
+    @Override
     public ServiceResponse SaveVendor(SaveVendorRequest request){
 
         ServiceResponse response = vendorDaoImpl.SaveVendor(request);
@@ -42,6 +43,7 @@ public class VendorRepositoryImpl implements VendorRepository {
         return response;
     }
 
+    @Override
     public GetVendorsResponse GetVendor(GetVendorsRequest request)
     {
         GetVendorsResponse response = vendorDaoImpl.GetVendor(request);

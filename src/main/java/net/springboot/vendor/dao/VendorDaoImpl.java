@@ -42,6 +42,7 @@ public class VendorDaoImpl implements VendorDao {
         this.repository = repository;
     }
 
+    @Override
     @Transactional
     public ServiceResponse SaveVendor(SaveVendorRequest request){
         try {
@@ -90,6 +91,7 @@ public class VendorDaoImpl implements VendorDao {
         return new ServiceResponse(true, "Vendor has been saved successfully");
     }
 
+    @Override
     @Transactional
     public GetVendorsResponse GetVendor(GetVendorsRequest request){
         SearchUtil util = new SearchUtil();

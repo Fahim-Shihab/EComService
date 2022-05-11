@@ -58,12 +58,12 @@ public class ProductRepository {
                     product.setId(request.getId());
                 } else {
                     product = new Product();
-                    product.setId(UUID.randomUUID().toString().substring(0,10));
+                    product.setId(UUID.randomUUID().toString().replace("-","").substring(0,10));
                 }
             }
             else{
                 product = new Product();
-                product.setId(UUID.randomUUID().toString().substring(0,10));
+                product.setId(UUID.randomUUID().toString().replace("-","").substring(0,10));
             }
 
             if (request.getVendorId() > 0) {

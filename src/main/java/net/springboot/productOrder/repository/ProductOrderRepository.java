@@ -1,13 +1,20 @@
 package net.springboot.productOrder.repository;
 
 import lombok.var;
+import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
+import net.springboot.common.enums.OrderStatus;
+import net.springboot.common.enums.Status;
 import net.springboot.common.repository.BaseRepository;
+import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
 import net.springboot.product.model.Product;
 import net.springboot.productOrder.model.OrderInfo;
 import net.springboot.productOrder.model.ProductOrder;
+import net.springboot.productOrder.payload.GetOrderInfoRequest;
+import net.springboot.productOrder.payload.GetOrderInfoResponse;
 import net.springboot.productOrder.payload.OrderDetailSaveRequest;
+import net.springboot.productOrder.payload.OrderInfoRequest;
 import net.springboot.security.model.LoggedInUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class ProductOrderRepository {
@@ -58,12 +65,12 @@ public class ProductOrderRepository {
                     orderInfo.setOrderId(request.getOrderInfo().getOrderId());
                 } else {
                     orderInfo = new OrderInfo();
-                    orderInfo.setOrderId(UUID.randomUUID().toString().substring(0,10));
+                    orderInfo.setOrderId(UUID.randomUUID().toString().replace("-","").substring(0,10));
                 }
             }
             else{
                 orderInfo = new OrderInfo();
-                orderInfo.setOrderId(UUID.randomUUID().toString().substring(0,10));
+                orderInfo.setOrderId(UUID.randomUUID().toString().replace("-","").substring(0,10));
             }
 
             Timestamp timestamp = Utils.getCurrentTimeStamp();
@@ -128,12 +135,12 @@ public class ProductOrderRepository {
                         productOrder.setId(obj.getId());
                     } else {
                         productOrder = new ProductOrder();
-                        productOrder.setId(UUID.randomUUID().toString().substring(0,20));
+                        productOrder.setId(UUID.randomUUID().toString().replace("-","").substring(0,20));
                     }
                 }
                 else {
                     productOrder = new ProductOrder();
-                    productOrder.setId(UUID.randomUUID().toString().substring(0,20));
+                    productOrder.setId(UUID.randomUUID().toString().replace("-","").substring(0,20));
                 }
 
                 productOrder.setOrderId(orderInfo.getOrderId());
@@ -166,5 +173,96 @@ public class ProductOrderRepository {
             return new ServiceResponse(false, "Internal server error. Please contact with admin");
         }
         return new ServiceResponse(true, "Order has been placed successfully");
+    }
+
+    @Transactional
+    public GetOrderInfoResponse GetProductOrder(GetOrderInfoRequest request)
+    {
+        SearchUtil util = new SearchUtil();
+
+        try{
+
+            GetOrderInfoResponse response = new GetOrderInfoResponse();
+
+            String sql = "SELECT * FROM order_info WHERE 1=1 ";
+            String sqlCount = "SELECT COUNT(*) FROM order_info WHERE 1=1 ";
+            Map<String, Object> params = new HashMap<>();
+
+            String whereClause = "";
+
+            if (Utils.isOk(request.getOrderId())) {
+                whereClause += " AND order_id = '"+request.getOrderId()+"'";
+            }
+            if (Utils.isOk(request.getOrderBy())){
+                whereClause += " AND order_by = '"+request.getOrderBy()+"'";
+            }
+            if (Utils.isOk(request.getOrderDate())){
+                whereClause += " AND order_date = '"+request.getOrderDate()+"'";
+            }
+            if (Utils.isOk(request.getOrderStatus())){
+                whereClause += " AND order_status = '"+request.getOrderStatus().getCode()+"'";
+            }
+            if (Utils.isOk(request.getStatus())){
+                whereClause += " AND status = '"+request.getStatus().getCode()+"'";
+            }
+            if (request.getPage() - 1 <= 0) {
+                request.setPage(0);
+            } else {
+                request.setPage(request.getPage() - 1);
+            }
+            if (request.getSize() == 0) {
+                request.setSize(Defs.DEFAULT_LIMIT);
+            }
+
+            sql += whereClause;
+            sqlCount += whereClause;
+
+            Query qCount = em.createNativeQuery(sqlCount);
+
+            qCount = util.setQueryParameter(qCount, request);
+            BigInteger count = (BigInteger) qCount.getSingleResult();
+
+            if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
+                return new GetOrderInfoResponse("Could not find product order");
+            }
+
+            Query q = em.createNativeQuery(sql, OrderInfo.class);
+            q.setFirstResult(request.getPage()*request.getSize());
+            q.setMaxResults(request.getSize());
+            q = util.setQueryParameter(q,request);
+
+            List<OrderInfo> entitylist = q.getResultList();
+
+            if (entitylist != null) {
+
+                List<OrderInfoRequest> list = new ArrayList<>();
+                entitylist.forEach(orderInfo -> {
+                    OrderInfoRequest obj = new OrderInfoRequest();
+                    obj.setAdminComments(orderInfo.getAdminComments());
+                    obj.setCompletedDeliveryDate(orderInfo.getCompletedDeliveryDate());
+                    obj.setCustomerComments(orderInfo.getCustomerComments());
+                    obj.setDeliveryAddress(orderInfo.getDeliveryAddress());
+                    obj.setExpectedDeliveryDate(orderInfo.getExpectedDeliveryDate());
+                    obj.setOrderBy(orderInfo.getOrderBy());
+                    obj.setOrderDate(orderInfo.getOrderDate());
+                    obj.setOrderId(orderInfo.getOrderId());
+                    obj.setOrderStatus(OrderStatus.getByCode(orderInfo.getOrderStatus()));
+                    obj.setStatus(Status.getByCode(orderInfo.getStatus()));
+                    obj.setTotalPrice(orderInfo.getTotalPrice());
+
+                    list.add(obj);
+                });
+                response.setOrderInfoDetailsList(list);
+                response.setTotal(count);
+
+                return response;
+            }
+
+        }catch (Throwable t) {
+            LOGGER.error("Product order fetch ERROR:", t);
+            return new GetOrderInfoResponse("Internal server error. Please contact with admin");
+        }
+
+        return new GetOrderInfoResponse("Error fetching order");
     }
 }

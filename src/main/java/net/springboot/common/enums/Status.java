@@ -14,6 +14,23 @@ public enum Status implements Serializable {
         this.value = value;
     }
 
+    public static Status getByCode(String id) {
+        for (Status e : values()) {
+            if (e.code.equals(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+    public static Status getByValue(String displayName) {
+        for (Status e : values()) {
+            if (e.value.equals(displayName)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public String getValue() {
         return this.value;
     }

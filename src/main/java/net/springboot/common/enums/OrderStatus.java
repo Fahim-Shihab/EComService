@@ -19,6 +19,23 @@ public enum OrderStatus implements Serializable {
         this.value = value;
     }
 
+    public static OrderStatus getByCode(int id) {
+        for (OrderStatus e : values()) {
+            if (e.code == id) {
+                return e;
+            }
+        }
+        return null;
+    }
+    public static OrderStatus getByValue(String displayName) {
+        for (OrderStatus e : values()) {
+            if (e.value.equals(displayName)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public String getValue() {
         return this.value;
     }
