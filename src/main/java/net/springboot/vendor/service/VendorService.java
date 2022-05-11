@@ -2,19 +2,18 @@ package net.springboot.vendor.service;
 
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.Utils;
-import net.springboot.common.repository.BaseRepository;
 import net.springboot.vendor.payload.GetVendorsRequest;
 import net.springboot.vendor.payload.GetVendorsResponse;
 import net.springboot.vendor.payload.SaveVendorRequest;
-import net.springboot.vendor.repository.VendorRepository;
+import net.springboot.vendor.repository.VendorRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VendorService {
 
-    private final VendorRepository vendorRepository;
+    private final VendorRepositoryImpl vendorRepository;
 
-    public VendorService(VendorRepository vendorRepository)
+    public VendorService(VendorRepositoryImpl vendorRepository)
     {
         this.vendorRepository = vendorRepository;
     }

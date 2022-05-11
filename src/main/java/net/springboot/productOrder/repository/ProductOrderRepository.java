@@ -78,7 +78,8 @@ public class ProductOrderRepository {
             orderInfo.setDeliveryAddress(request.getOrderInfo().getDeliveryAddress());
             orderInfo.setExpectedDeliveryDate(request.getOrderInfo().getExpectedDeliveryDate());
             orderInfo.setCompletedDeliveryDate(request.getOrderInfo().getCompletedDeliveryDate());
-            orderInfo.setStatus(request.getOrderInfo().getOrderStatus());
+            orderInfo.setOrderStatus(request.getOrderInfo().getOrderStatus().getCode());
+            orderInfo.setStatus(request.getOrderInfo().getStatus().getCode());
 
             if(!isOrderInfoUpdate) {
                 orderInfo.setEntryDate(timestamp);
@@ -140,7 +141,8 @@ public class ProductOrderRepository {
                 productOrder.setAmount(obj.getAmount());
                 productOrder.setCustomerComments(obj.getCustomerComments());
                 productOrder.setDiscountCode(obj.getDiscountCode());
-                productOrder.setOrderStatus(obj.getOrderStatus());
+                productOrder.setOrderStatus(obj.getOrderStatus().getCode());
+                productOrder.setStatus(obj.getStatus().getCode());
                 productOrder.setPrice(obj.getPrice());
                 productOrder.setProductId(product);
                 productOrder.setReturnDate(obj.getReturnDate());

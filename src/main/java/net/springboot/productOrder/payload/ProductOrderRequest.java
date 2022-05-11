@@ -2,6 +2,8 @@ package net.springboot.productOrder.payload;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.springboot.common.enums.OrderStatus;
+import net.springboot.common.enums.Status;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +17,8 @@ public class ProductOrderRequest implements Serializable {
     private long price;
     private String discountCode;
     private String orderId;
-    private String orderStatus;
+    private OrderStatus orderStatus;
+    Status status;
     private String customerComments;
     private String adminComments;
     private Date returnDate;

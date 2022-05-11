@@ -36,7 +36,7 @@ public class OrderInfo extends GenericModel implements Serializable {
     private String deliveryAddress;
 
     @Column(name = "order_status", length = 1)
-    private String orderStatus;
+    private int orderStatus;
 
     @Column(name = "customer_comments")
     private String customerComments;
