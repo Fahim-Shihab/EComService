@@ -34,7 +34,7 @@ public class VendorDaoImpl implements VendorDao {
     @PersistenceContext
     EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VendorRepositoryImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VendorDaoImpl.class);
 
     private final BaseRepository repository;
 

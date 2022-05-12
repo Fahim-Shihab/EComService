@@ -1,4 +1,4 @@
-package net.springboot.product.repository;
+package net.springboot.product.dao;
 
 import net.springboot.common.base.Defs;
 import net.springboot.common.base.ServiceResponse;
@@ -26,19 +26,20 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-public class ProductRepository {
+public class ProductDaoImpl implements ProductDao{
 
     @PersistenceContext
     EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoImpl.class);
 
     private final BaseRepository repository;
 
-    public ProductRepository(BaseRepository repository){
+    public ProductDaoImpl(BaseRepository repository){
         this.repository = repository;
     }
 
+    @Override
     @Transactional
     public ServiceResponse SaveProduct(SaveProductRequest request){
         try{
@@ -132,6 +133,7 @@ public class ProductRepository {
         return new ServiceResponse(true, "PRODUCT has been saved successfully");
     }
 
+    @Override
     @Transactional
     public GetProductResponse GetProduct(GetProductRequest request){
         SearchUtil util = new SearchUtil();

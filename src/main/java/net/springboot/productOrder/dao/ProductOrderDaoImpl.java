@@ -1,4 +1,4 @@
-package net.springboot.productOrder.repository;
+package net.springboot.productOrder.dao;
 
 import lombok.var;
 import net.springboot.common.base.Defs;
@@ -30,18 +30,19 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-public class ProductOrderRepository {
+public class ProductOrderDaoImpl implements ProductOrderDao {
     @PersistenceContext
     EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductOrderRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductOrderDaoImpl.class);
 
     private final BaseRepository repository;
 
-    public ProductOrderRepository(BaseRepository repository) {
+    public ProductOrderDaoImpl(BaseRepository repository) {
         this.repository = repository;
     }
 
+    @Override
     @Transactional
     public ServiceResponse SaveProductOrder(OrderDetailSaveRequest request) {
 
@@ -175,6 +176,7 @@ public class ProductOrderRepository {
         return new ServiceResponse(true, "Order has been placed successfully");
     }
 
+    @Override
     @Transactional
     public GetOrderInfoResponse GetProductOrder(GetOrderInfoRequest request)
     {

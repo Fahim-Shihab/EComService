@@ -2,11 +2,10 @@ package net.springboot.security.service;
 
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.Utils;
-import net.springboot.common.repository.BaseRepository;
 import net.springboot.security.config.JwtUtils;
 import net.springboot.security.model.LoggedInUser;
 import net.springboot.security.payload.*;
-import net.springboot.security.repository.SecurityRepository;
+import net.springboot.security.repository.SecurityRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,11 +24,11 @@ public class SecurityService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
-    private final SecurityRepository securityRepository;
+    private final SecurityRepositoryImpl securityRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityService.class);
 
-    public SecurityService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, SecurityRepository securityRepository) {
+    public SecurityService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, SecurityRepositoryImpl securityRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.securityRepository = securityRepository;

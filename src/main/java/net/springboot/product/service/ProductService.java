@@ -1,18 +1,17 @@
 package net.springboot.product.service;
 
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.common.util.Utils;
 import net.springboot.product.payload.product.GetProductRequest;
 import net.springboot.product.payload.product.GetProductResponse;
 import net.springboot.product.payload.product.SaveProductRequest;
-import net.springboot.product.repository.ProductRepository;
+import net.springboot.product.dao.ProductDaoImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-    private final ProductRepository productRepository;
+    private final ProductDaoImpl productRepository;
 
-    public ProductService(ProductRepository productRepository)
+    public ProductService(ProductDaoImpl productRepository)
     {
         this.productRepository = productRepository;
     }
