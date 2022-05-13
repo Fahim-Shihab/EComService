@@ -1,9 +1,7 @@
 package net.springboot.productOrder.controller;
 
 import net.springboot.common.base.ServiceResponse;
-import net.springboot.productOrder.payload.GetOrderInfoRequest;
-import net.springboot.productOrder.payload.GetOrderInfoResponse;
-import net.springboot.productOrder.payload.SaveOrderDetailRequest;
+import net.springboot.productOrder.payload.*;
 import net.springboot.productOrder.service.ProductOrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +15,21 @@ public class ProductOrderController {
         this.productOrderService = productOrderService;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/saveOrderDetail")
     public @ResponseBody
-    ServiceResponse SaveProductOrder(@RequestBody SaveOrderDetailRequest request){
-        return productOrderService.SaveProductOrder(request);
+    ServiceResponse SaveProductOrderDetail(@RequestBody SaveOrderDetailRequest request){
+        return productOrderService.SaveProductOrderDetail(request);
     }
 
-    @PostMapping("/get")
+    @PostMapping("/getOrderInfo")
     public @ResponseBody
-    GetOrderInfoResponse GetProductOrder(@RequestBody GetOrderInfoRequest request){
-        return productOrderService.GetProductOrder(request);
+    GetOrderInfoResponse GetProductOrderInfo(@RequestBody GetOrderInfoRequest request){
+        return productOrderService.GetProductOrderInfo(request);
+    }
+
+    @PostMapping("/getOrderDetail")
+    public @ResponseBody
+    GetProductOrderResponse GetProductOrderDetail(@RequestBody GetProductOrderRequest request){
+        return productOrderService.GetProductOrderDetail(request);
     }
 }

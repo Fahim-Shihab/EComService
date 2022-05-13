@@ -8,13 +8,11 @@ import net.springboot.common.enums.Status;
 import net.springboot.common.repository.BaseRepository;
 import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
+import net.springboot.product.dao.ProductDao;
 import net.springboot.product.model.Product;
 import net.springboot.productOrder.model.OrderInfo;
 import net.springboot.productOrder.model.ProductOrder;
-import net.springboot.productOrder.payload.GetOrderInfoRequest;
-import net.springboot.productOrder.payload.GetOrderInfoResponse;
-import net.springboot.productOrder.payload.SaveOrderDetailRequest;
-import net.springboot.productOrder.payload.OrderInfoRequest;
+import net.springboot.productOrder.payload.*;
 import net.springboot.security.model.LoggedInUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +42,7 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
 
     @Override
     @Transactional
-    public ServiceResponse SaveProductOrder(SaveOrderDetailRequest request) {
+    public ServiceResponse SaveProductOrderDetail(SaveOrderDetailRequest request) {
 
         try{
             boolean isOrderInfoUpdate = false;
@@ -178,7 +176,7 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
 
     @Override
     @Transactional
-    public GetOrderInfoResponse GetProductOrder(GetOrderInfoRequest request)
+    public GetOrderInfoResponse GetProductOrderInfo(GetOrderInfoRequest request)
     {
         SearchUtil util = new SearchUtil();
 
@@ -266,5 +264,83 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
         }
 
         return new GetOrderInfoResponse("Error fetching order");
+    }
+
+    @Transactional
+    public GetProductOrderResponse GetProductOrderDetail(GetProductOrderRequest request)
+    {
+        SearchUtil util = new SearchUtil();
+
+        try{
+
+            GetProductOrderResponse response = new GetProductOrderResponse();
+
+            String sql = "SELECT * FROM product_order WHERE 1=1 ";
+            String sqlCount = "SELECT COUNT(*) FROM product_order WHERE 1=1 ";
+            Map<String, Object> params = new HashMap<>();
+
+            String whereClause = "";
+
+            if (Utils.isOk(request.getOrderId())) {
+                whereClause += " AND order_id = '"+request.getOrderId()+"'";
+            }
+            if (request.getPage() - 1 <= 0) {
+                request.setPage(0);
+            } else {
+                request.setPage(request.getPage() - 1);
+            }
+            if (request.getSize() == 0) {
+                request.setSize(Defs.DEFAULT_LIMIT);
+            }
+
+            sql += whereClause;
+            sqlCount += whereClause;
+
+            Query qCount = em.createNativeQuery(sqlCount);
+
+            qCount = util.setQueryParameter(qCount, request);
+            BigInteger count = (BigInteger) qCount.getSingleResult();
+
+            if (count.longValueExact() <= 0 || (count.longValueExact() < (request.getPage()*request.getSize()))){
+                return new GetProductOrderResponse("Could not find product order");
+            }
+
+            Query q = em.createNativeQuery(sql, ProductOrder.class);
+            q.setFirstResult(request.getPage()*request.getSize());
+            q.setMaxResults(request.getSize());
+            q = util.setQueryParameter(q,request);
+
+            List<ProductOrder> entitylist = q.getResultList();
+
+            if (entitylist != null) {
+
+                List<ProductOrderDto> list = new ArrayList<>();
+                entitylist.forEach(productOrderDto -> {
+                    ProductOrderDto obj = new ProductOrderDto();
+                    obj.setAdminComments(productOrderDto.getAdminComments());
+                    obj.setAmount(productOrderDto.getAmount());
+                    obj.setCustomerComments(productOrderDto.getCustomerComments());
+                    obj.setDiscountCode(productOrderDto.getDiscountCode());
+                    obj.setId(productOrderDto.getId());
+                    obj.setOrderId(productOrderDto.getOrderId());
+                    obj.setOrderStatus(OrderStatus.getByCode(productOrderDto.getOrderStatus()));
+                    obj.setPrice(productOrderDto.getPrice());
+                    obj.setProductId(productOrderDto.getProductId().getId());
+                    obj.setProductName(productOrderDto.getProductId().getName());
+
+                    list.add(obj);
+                });
+                response.setProductOrderList(list);
+                response.setTotal(count);
+
+                return response;
+            }
+
+        }catch (Throwable t) {
+            LOGGER.error("Product order detail fetch ERROR:", t);
+            return new GetProductOrderResponse("Internal server error. Please contact with admin");
+        }
+
+        return new GetProductOrderResponse("Error fetching order detail");
     }
 }

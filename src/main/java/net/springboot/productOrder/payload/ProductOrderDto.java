@@ -2,6 +2,7 @@ package net.springboot.productOrder.payload;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.springboot.common.enums.OrderStatus;
 
 import java.io.Serializable;
 
@@ -15,7 +16,7 @@ public class ProductOrderDto implements Serializable {
     private long price;
     private String discountCode;
     private String orderId;
-    private String orderStatus;
+    OrderStatus orderStatus;
     private String customerComments;
     private String adminComments;
 }
