@@ -13,7 +13,7 @@ import net.springboot.productOrder.model.OrderInfo;
 import net.springboot.productOrder.model.ProductOrder;
 import net.springboot.productOrder.payload.GetOrderInfoRequest;
 import net.springboot.productOrder.payload.GetOrderInfoResponse;
-import net.springboot.productOrder.payload.OrderDetailSaveRequest;
+import net.springboot.productOrder.payload.SaveOrderDetailRequest;
 import net.springboot.productOrder.payload.OrderInfoRequest;
 import net.springboot.security.model.LoggedInUser;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
 
     @Override
     @Transactional
-    public ServiceResponse SaveProductOrder(OrderDetailSaveRequest request) {
+    public ServiceResponse SaveProductOrder(SaveOrderDetailRequest request) {
 
         try{
             boolean isOrderInfoUpdate = false;

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderDetailSaveRequest implements Serializable {
+public class SaveOrderDetailRequest implements Serializable {
     List<ProductOrderRequest> productOrderList;
     OrderInfoRequest orderInfo;
 }

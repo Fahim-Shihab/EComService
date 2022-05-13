@@ -3,7 +3,7 @@ package net.springboot.productOrder.service;
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.productOrder.payload.GetOrderInfoRequest;
 import net.springboot.productOrder.payload.GetOrderInfoResponse;
-import net.springboot.productOrder.payload.OrderDetailSaveRequest;
+import net.springboot.productOrder.payload.SaveOrderDetailRequest;
 import net.springboot.productOrder.dao.ProductOrderDaoImpl;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class ProductOrderService {
         this.productOrderRepository = productOrderRepository;
     }
 
-    public ServiceResponse SaveProductOrder(OrderDetailSaveRequest request){
+    public ServiceResponse SaveProductOrder(SaveOrderDetailRequest request){
         return productOrderRepository.SaveProductOrder(request);
     }
 

@@ -3,7 +3,7 @@ package net.springboot.productOrder.controller;
 import net.springboot.common.base.ServiceResponse;
 import net.springboot.productOrder.payload.GetOrderInfoRequest;
 import net.springboot.productOrder.payload.GetOrderInfoResponse;
-import net.springboot.productOrder.payload.OrderDetailSaveRequest;
+import net.springboot.productOrder.payload.SaveOrderDetailRequest;
 import net.springboot.productOrder.service.ProductOrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class ProductOrderController {
 
     @PostMapping("/save")
     public @ResponseBody
-    ServiceResponse SaveProductOrder(@RequestBody OrderDetailSaveRequest request){
+    ServiceResponse SaveProductOrder(@RequestBody SaveOrderDetailRequest request){
         return productOrderService.SaveProductOrder(request);
     }
 
