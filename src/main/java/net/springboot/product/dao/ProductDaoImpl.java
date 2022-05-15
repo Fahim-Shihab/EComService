@@ -5,6 +5,7 @@ import net.springboot.common.base.ServiceResponse;
 import net.springboot.common.util.SearchUtil;
 import net.springboot.common.util.Utils;
 import net.springboot.common.repository.BaseRepository;
+import net.springboot.minio.MinioService;
 import net.springboot.product.model.Product;
 import net.springboot.product.payload.product.GetProductRequest;
 import net.springboot.product.payload.product.GetProductResponse;
@@ -14,6 +15,8 @@ import net.springboot.security.model.LoggedInUser;
 import net.springboot.vendor.model.Vendor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,11 @@ public class ProductDaoImpl implements ProductDao{
     public ProductDaoImpl(BaseRepository repository){
         this.repository = repository;
     }
+
+    @Autowired
+    MinioService minioService;
+    @Value("${minio.bucket.name}")
+    public String defaultBucketName;
 
     @Override
     @Transactional
@@ -112,6 +120,12 @@ public class ProductDaoImpl implements ProductDao{
             Timestamp timestamp = Utils.getCurrentTimeStamp();
 
             LoggedInUser user = (LoggedInUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if (Utils.isOk(request.getPhoto())){
+                String name = "product/"+request.getType()+"/"+product.getId()+".jpg";
+                minioService.uploadFile(defaultBucketName, name, request.getPhoto(), "jpg");
+                product.setPhoto(name);
+            }
 
             if(!isUpdate) {
                 product.setEntryDate(timestamp);
@@ -216,13 +230,14 @@ public class ProductDaoImpl implements ProductDao{
                     obj.setDescription(product.getDescription());
                     obj.setDetails(product.getDetails());
                     obj.setDiscountCode(product.getDiscountCode());
-                    //obj.setExpiryDate(product.getExpiryDate().toString());
+                    obj.setExpiryDate(Utils.getDateToString(product.getExpiryDate()));
                     obj.setPurchaseCost(product.getPurchaseCost());
-                    //obj.setPurchaseDate(product.getPurchaseDate().toString());
+                    obj.setPurchaseDate(Utils.getDateToString(product.getPurchaseDate()));
                     obj.setType(product.getType());
                     obj.setUnitPrice(product.getUnitPrice());
-                    //obj.setManufactureDate(product.getManufactureDate().toString());
+                    obj.setManufactureDate(Utils.getDateToString(product.getManufactureDate()));
                     obj.setVendorName(product.getVendorId().getName());
+                    obj.setPhoto(product.getPhoto());
 
                     list.add(obj);
                 });

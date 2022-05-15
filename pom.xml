@@ -18,6 +18,7 @@
 		<java.version>8</java.version>
 		<redis.client.jedis.version>3.5.2</redis.client.jedis.version>
 		<spring-boot.version>2.4.5</spring-boot.version>
+		<commons-text.version>1.8</commons-text.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,6 +28,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-websocket</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,6 +97,18 @@
 			<version>2.10.4</version>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>org.apache.commons</groupId>-->
+<!--			<artifactId>commons-text</artifactId>-->
+<!--			<version>${commons-text.version}</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
@@ -100,7 +119,44 @@
 			<artifactId>jedis</artifactId>
 			<version>${redis.client.jedis.version}</version>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.data</groupId>-->
+<!--			<artifactId>spring-data-commons</artifactId>-->
+<!--			<version>${spring-boot.version}</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>8.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 	</dependencies>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<build>
 		<finalName>ecom-backend</finalName>

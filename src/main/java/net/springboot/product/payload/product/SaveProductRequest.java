@@ -18,7 +18,7 @@ public class SaveProductRequest implements Serializable {
     List<ProductCategory> details;
     String description;
     long vendorId;
-    String photo;
+    byte[] photo;
     long amount;
     double purchaseCost;
     double unitPrice;
