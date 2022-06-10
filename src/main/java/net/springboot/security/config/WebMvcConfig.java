@@ -85,7 +85,8 @@ public class WebMvcConfig  extends WebSecurityConfigurerAdapter implements WebMv
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/auth/signin","/auth/register").permitAll()
+                .authorizeRequests().antMatchers("/auth/signin",
+                "/auth/register", "/product/get").permitAll()
                 //.antMatchers("/swagger-ui.html").permitAll()
                 //.antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
